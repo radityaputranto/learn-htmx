@@ -12,19 +12,19 @@ app.use(express.json());
 app.disable('etag');
 // Handle GET request to fetch users
 app.get('/users', async (req, res) => {
-    /* const users = [
-        { id: 1, name: 'Jhon Doe' },
-        { id: 2, name: 'Bob Wiwliams' },
-        { id: 1, name: 'Shannon Jacson' },
-    ]; */
+  /* const users = [
+      { id: 1, name: 'Jhon Doe' },
+      { id: 2, name: 'Bob Wiwliams' },
+      { id: 1, name: 'Shannon Jacson' },
+  ]; */
 
-    // mimix slow network
-    setTimeout(async () => {
-        const limit = +req.query.limit || 10;
-        const response = await fetch(`https://jsonplaceholder.typicode.com/users?_limit=${limit}`);
-        const users = await response.json();
+  // mimix slow network
+  setTimeout(async () => {
+    const limit = +req.query.limit || 10;
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users?_limit=${limit}`);
+    const users = await response.json();
 
-        res.send(`
+    res.send(`
         <h1 class="text-2xl font-bold my-4">
         Users
         </h1>
@@ -33,131 +33,131 @@ app.get('/users', async (req, res) => {
             ${users.map((user) => `<li>${user.name}</li>`).join(' ')}
         </ul>
     `);
-    }, 2000)
+  }, 2000)
 });
 
 // Handle POST request for temperature conversation
 app.post('/convert', (req, res) => {
-    setTimeout(() => {
-        const fahrenheit = parseFloat(req.body.fahrenheit);
-        const celcius = (fahrenheit - 32) * (5 / 9);
+  setTimeout(() => {
+    const fahrenheit = parseFloat(req.body.fahrenheit);
+    const celcius = (fahrenheit - 32) * (5 / 9);
 
-        res.send(`
+    res.send(`
         <p>
         ${fahrenheit} degrees Fahrenheit is equal to ${celcius} degrees celcius
         `);
-    }, 2000)
+  }, 2000)
 });
 
 // Handle GET request for polling example
 let counter = 0;
 app.get('/get-poll', (req, res) => {
-    counter++;
+  counter++;
 
-    const data = { value: counter };
-    res.json(data);
+  const data = { value: counter };
+  res.json(data);
 });
 
 // Handle GET request for weather
 let currentTemperature = 20;
 app.get('/get-temperature', (req, res) => {
-    currentTemperature += Math.random() * 2 - 1;
-    res.send(currentTemperature.toFixed(1) + 'C');
+  currentTemperature += Math.random() * 2 - 1;
+  res.send(currentTemperature.toFixed(1) + 'C');
 });
 
 // Handle POST request for contacts search
 const contacts = [
-    { name: 'John Doe', email: 'john@example.com' },
-    { name: 'Jane Doe', email: 'jane@example.com' },
-    { name: 'Alice Smith', email: 'alice@example.com' },
-    { name: 'Bob Williams', email: 'bob@example.com' },
-    { name: 'Mary Harris', email: 'mary@example.com' },
-    { name: 'David Mitchell', email: 'david@example.com' },
+  { name: 'John Doe', email: 'john@example.com' },
+  { name: 'Jane Doe', email: 'jane@example.com' },
+  { name: 'Alice Smith', email: 'alice@example.com' },
+  { name: 'Bob Williams', email: 'bob@example.com' },
+  { name: 'Mary Harris', email: 'mary@example.com' },
+  { name: 'David Mitchell', email: 'david@example.com' },
 ];
 
 app.post('/search', (req, res) => {
-    const searchTerm = req.body.search.toLowerCase();
+  const searchTerm = req.body.search.toLowerCase();
 
-    if (!searchTerm) {
-        return res.send('<tr><td>No data</td></tr>');
-    }
+  if (!searchTerm) {
+    return res.send('<tr><td>No data</td></tr>');
+  }
 
-    const searchResults = contacts.filter((contact) => {
-        const name = contact.name.toLowerCase();
-        const email = contact.email.toLowerCase();
+  const searchResults = contacts.filter((contact) => {
+    const name = contact.name.toLowerCase();
+    const email = contact.email.toLowerCase();
 
-        return name.includes(searchTerm) || email.includes(searchTerm);
-    });
+    return name.includes(searchTerm) || email.includes(searchTerm);
+  });
 
-    setTimeout(() => {
-        const searchResultHtml = searchResults
-            .map(
-                (contact) => `
+  setTimeout(() => {
+    const searchResultHtml = searchResults
+      .map(
+        (contact) => `
         <tr>
           <td><div class="my-4 p-2">${contact.name}</div></td>
           <td><div class="my-4 p-2">${contact.email}</div></td>
         </tr>
       `
-            )
-            .join('');
+      )
+      .join('');
 
-        res.send(searchResultHtml);
-    }, 1000);
+    res.send(searchResultHtml);
+  }, 1000);
 });
 
 
 // Handle POST request for contacts search from jsonplaceholder
 app.post('/search/api', async (req, res) => {
-    const searchTerm = req.body.search.toLowerCase();
+  const searchTerm = req.body.search.toLowerCase();
 
-    if (!searchTerm) {
-        return res.send('<tr></tr>');
-    }
+  if (!searchTerm) {
+    return res.send('<tr></tr>');
+  }
 
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
-    const contacts = await response.json();
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
+  const contacts = await response.json();
 
-    const searchResults = contacts.filter((contact) => {
-        const name = contact.name.toLowerCase();
-        const email = contact.email.toLowerCase();
+  const searchResults = contacts.filter((contact) => {
+    const name = contact.name.toLowerCase();
+    const email = contact.email.toLowerCase();
 
-        return name.includes(searchTerm) || email.includes(searchTerm);
-    });
+    return name.includes(searchTerm) || email.includes(searchTerm);
+  });
 
-    setTimeout(() => {
-        const searchResultHtml = searchResults
-            .map(
-                (contact) => `
+  setTimeout(() => {
+    const searchResultHtml = searchResults
+      .map(
+        (contact) => `
         <tr>
           <td><div class="my-4 p-2">${contact.name}</div></td>
           <td><div class="my-4 p-2">${contact.email}</div></td>
         </tr>
       `
-            )
-            .join('');
+      )
+      .join('');
 
-        res.send(searchResultHtml);
-    }, 1000);
+    res.send(searchResultHtml);
+  }, 1000);
 });
 
 // Handle POST request for email validation
 app.post('/contact/email', (req, res) => {
-    const submittedEmail = req.body.email;
-    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+  const submittedEmail = req.body.email;
+  const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
 
-    const isValid = {
-        message: 'That email is valid',
-        class: 'text-green-700',
-    };
+  const isValid = {
+    message: 'That email is valid',
+    class: 'text-green-700',
+  };
 
-    const isInvalid = {
-        message: 'Please enter a valid email address',
-        class: 'text-red-700',
-    };
+  const isInvalid = {
+    message: 'Please enter a valid email address',
+    class: 'text-red-700',
+  };
 
-    if (!emailRegex.test(submittedEmail)) {
-        return res.send(
-            `
+  if (!emailRegex.test(submittedEmail)) {
+    return res.send(
+      `
         <div class="mb-4" hx-target="this" hx-swap="outerHTML">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
           >Email Address</label
@@ -174,10 +174,10 @@ app.post('/contact/email', (req, res) => {
         <div class="${isInvalid.class}">${isInvalid.message}</div>
       </div>
         `
-        );
-    } else {
-        return res.send(
-            `
+    );
+  } else {
+    return res.send(
+      `
         <div class="mb-4" hx-target="this" hx-swap="outerHTML">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
           >Email Address</label
@@ -194,14 +194,14 @@ app.post('/contact/email', (req, res) => {
         <div class="${isValid.class}">${isValid.message}</div>
       </div>
         `
-        );
-    }
+    );
+  }
 });
 
 // Handle GET request for profile edit
 app.get('/profile/:id/edit', (req, res) => {
-    // You can send an HTML form for editing here
-    res.send(`
+  // You can send an HTML form for editing here
+  res.send(`
     <div
     class="container mx-auto py-8 max-w-lg"
     hx-target="this"
@@ -229,11 +229,11 @@ app.get('/profile/:id/edit', (req, res) => {
 
 // Handle PUT request for editing
 app.put('/profile/:id', (req, res) => {
-    const name = xss(req.body.name);
-    const bio = xss(req.body.bio);
+  const name = xss(req.body.name);
+  const bio = xss(req.body.bio);
 
-    // Send the updated profile back
-    res.send(`
+  // Send the updated profile back
+  res.send(`
     <div
     class="container mx-auto py-8 max-w-lg"
     hx-target="this"
@@ -256,7 +256,41 @@ app.put('/profile/:id', (req, res) => {
     `);
 });
 
+// Get menu app
+app.get('/get-menu', async (req, res) => {
+  const menus = [
+    { id: 1, name: 'Simple Request', description: '', link: 'simple-request.html' },
+    { id: 2, name: 'Temperature App', description: '', link: 'temperature.html' },
+    { id: 3, name: 'Waeather App', description: '', link: 'weather.html' },
+    { id: 4, name: 'Contact Search', description: '', link: 'search-contact.html' },
+    { id: 5, name: 'Validation', description: '', link: 'validation.html' },
+    { id: 6, name: 'Profile', description: '', link: 'profile.html' },
+  ];
+
+  // mimix slow network
+  setTimeout(async () => {
+    res.send(`
+      ${menus.map((menu) => `
+      <div class="bg-white rounded-lg border p-4">
+          <img src="https://placehold.co/300x200/d1d4ff/352cb5.png" alt="Placeholder Image"
+              class="w-full h-48 rounded-md object-cover">
+          <div class="px-1 py-4">
+              <div class="font-bold text-xl mb-2">${menu.name}</div>
+              <p class="text-gray-700 text-base">
+                ${menu.description}
+              </p>
+              <div id="users"></div>
+          </div>
+          <div class="px-1 py-4">
+              <a href="${menu.link}" class="border border-blue-500 text-blue-500 py-2 px-3 my-5 rounded-lg">See Menu</a>
+          </div>
+      </div>
+    `).join(' ')}
+  `);
+  }, 2000)
+});
+
 // Start the server
 app.listen(3000, () => {
-    console.log('Server listening on port 3000');
+  console.log('Server listening on port 3000');
 });

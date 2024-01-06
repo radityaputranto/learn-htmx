@@ -12,19 +12,27 @@
     <title>HTMX Crash Course</title>
 </head>
 
-<body>
-    <div class="text-center">
-        <h1 class="text-2xl font-bold my-5">Simple Request Example</h1>
-        <button hx-get="/users" hx-target="#users" hx-indicator="#loading" hx-vals='{"limit": 3}'
-            class="bg-blue-500 text-white py-2 px-3 my-5 rounded-lg">
-            Fetch Users
-        </button>
+<body class="bg-gradient-to-bl from-blue-50 to-violet-50">
+    <div class="lg:h-screen">
+        <div class="text-center pt-10 mb-4">
+            <h1 class="text-2xl font-bold">Learn HTMX</h1>
+            <button hx-get="/get-menu" hx-target="#menuWrapper" hx-indicator="#loading" hx-vals='{"limit": 3}'
+                class="bg-blue-500 text-white py-2 px-3 my-5 rounded-lg">
+                Init App
+            </button>
+        </div>
 
         <span class="htmx-indicator" id="loading">
             <img src="img/loader.gif" alt="Loading..." class="m-auto h-10" />
         </span>
 
-        <div id="users"></div>
+        <div class="flex items-center justify-center">
+            <div class="container mx-auto mx-auto p-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4"
+                    id="menuWrapper">
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
